@@ -451,8 +451,6 @@ create or replace package body ut_suite_manager is
     a_tags           ut_varchar2_rows := null
   ) is
   begin
-    refresh_cache(a_owner_name);
-
     reconstruct_from_cache(
       a_suites,
       get_cached_suite_data(
@@ -546,6 +544,7 @@ create or replace package body ut_suite_manager is
     l_schema := l_schema_paths.first;
     while l_schema is not null loop
       l_path_items  := l_schema_paths(l_schema);
+      refresh_cache(upper(l_schema));
       for i in 1 .. l_path_items.count loop
         l_path_item := l_path_items(i);
           add_suites_for_path(
